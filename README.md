@@ -3,7 +3,7 @@
 **Читать на русском:** [README_RU.md](README_RU.md)
 
 > **Made with AI** — the code, sounds and docs of this mod were created
-> by an AI assistant (Muse Spark via OpenCode) together with the author (smvad25).
+> by an AI assistant (Muse Spark via OpenCode) together with the author (smvad).
 >
 > **Experiment, not a final product.** This project was created for experimental
 > purposes: mechanics, sounds and balance may change without backward compatibility.

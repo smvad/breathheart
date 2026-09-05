@@ -3,7 +3,7 @@
 **Read in English:** [CREDITS.md](CREDITS.md)
 
 > **Сделано при помощи ИИ** — звуки подобраны, нарезаны и синтезированы
-> AI-ассистентом (Muse Spark via OpenCode) совместно с автором (smvad25).
+> AI-ассистентом (Muse Spark via OpenCode) совместно с автором (smvad).
 
 ## Сердцебиение (CC0)
 

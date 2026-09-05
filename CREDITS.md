@@ -3,7 +3,7 @@
 **Читать на русском:** [CREDITS_RU.md](CREDITS_RU.md)
 
 > **Made with AI** — the sounds were picked, cut and synthesized
-> by an AI assistant (Muse Spark via OpenCode) together with the author (smvad25).
+> by an AI assistant (Muse Spark via OpenCode) together with the author (smvad).
 
 ## Heartbeat (CC0)
 
