@@ -306,7 +306,8 @@ public final class BreathheartAudio {
 		String played = pollTestCue(client);
 		if (played != null && client.player != null) {
 			client.player.sendSystemMessage(
-				net.minecraft.network.chat.Component.literal("[Breathheart] test: " + played));
+				net.minecraft.network.chat.Component.translatable(
+					"breathheart.chat.test_cue", played));
 		}
 	}
 }

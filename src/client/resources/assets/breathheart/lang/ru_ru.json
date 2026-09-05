@@ -1,3 +1,21 @@
 {
-	"key.breathheart.settings": "Открыть настройки Breathheart"
+	"key.breathheart.settings": "Открыть настройки Breathheart",
+
+	"breathheart.settings.title": "Breathheart — дыхание и сердцебиение",
+	"breathheart.settings.breathing": "Дыхание",
+	"breathheart.settings.heartbeat": "Сердцебиение",
+	"breathheart.settings.on": "ВКЛ",
+	"breathheart.settings.off": "ВЫКЛ",
+	"breathheart.settings.masterVolume": "Общая громкость: %s",
+	"breathheart.settings.breathVolume": "Громкость дыхания: %s",
+	"breathheart.settings.heartVolume": "Громкость сердца: %s",
+	"breathheart.settings.recovery": "Восстановление: %s",
+	"breathheart.settings.heartSensitivity": "Чувствительность сердца: %s",
+	"breathheart.settings.calmInterval": "Пауза в покое: %s т.",
+	"breathheart.settings.peakInterval": "Ритм пика: %s т.",
+	"breathheart.settings.done": "Готово",
+	"breathheart.settings.hint": "Значения применяются сразу, сохраняются при закрытии",
+
+	"breathheart.chat.test_intro": "[Breathheart] test: слушайте 5 звуков (покой, пик, отдышка, сердце x2)...",
+	"breathheart.chat.test_cue": "[Breathheart] test: %s"
 }

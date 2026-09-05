@@ -1,81 +1,82 @@
 # Breathheart
 
-> **Сделано при помощи ИИ** — код, звуки и документация этого мода созданы
-> AI-ассистентом (Muse Spark via OpenCode) совместно с автором (smvad25).
+**Читать на русском:** [README_RU.md](README_RU.md)
+
+> **Made with AI** — the code, sounds and docs of this mod were created
+> by an AI assistant (Muse Spark via OpenCode) together with the author (smvad25).
 >
-> **Эксперимент, не конечный продукт.** Проект создан в экспериментальных целях:
-> механики, звуки и баланс могут меняться без обратной совместимости.
+> **Experiment, not a final product.** This project was created for experimental
+> purposes: mechanics, sounds and balance may change without backward compatibility.
 
-Клиентский Fabric-мод для Minecraft 26.2: система дыхания и сердцебиения.
+A client-side Fabric mod for Minecraft 26.2: a breathing and heartbeat system.
 
-- **Фон:** едва слышные дыхание и сердцебиение в покое.
-- **Нагрузка:** бег, спринт, прыжки, плавание, удары/добыча → дыхание чаще, громче, выше по тону; после долгой нагрузки — одышка с плавным спадом.
-- **Критические ситуации:** падение с высоты, резкая потеря HP, низкое здоровье → учащённое сердцебиение с затуханием.
+- **Background:** barely audible breathing and heartbeat at rest.
+- **Exertion:** running, sprinting, jumping, swimming, hitting/mining → breathing gets faster, louder, higher-pitched; prolonged effort leads to gasping that fades smoothly.
+- **Critical moments:** falling from height, sudden heavy damage, low health → racing heartbeat that fades out.
 
-Всё детектируется по движению/здоровью на клиенте (миксины не нужны), звук —
-ненаправленные one-shot сэмплы с динамическими громкостью, высотой тона
-и интервалом. Каждый сэмпл короче интервала своей стадии, поэтому вдохи
-никогда не накладываются и ничего не обрывается на полуслове; смена стадии
-дополнительно сглажена гистерезисом 8 тиков.
+Everything is detected from movement/health on the client (no mixins needed); sound is
+non-positional one-shot samples with dynamic volume, pitch and interval. Every sample
+is shorter than its stage interval, so breaths never overlap and nothing is cut off
+mid-play; stage switches are additionally smoothed by an 8-tick hysteresis.
 
-Мод активен только в выживании и приключениях; в креативе и наблюдении молчит.
+The mod is active in survival and adventure only; silent in creative and spectator.
 
-Калибровка: ходьба и редкие прыжки остаются в спокойной стадии (распад идёт
-каждый тик). Один пиковый порог (нагрузка 15, ~1 сек спринта): выше него
-дыхание идёт в фиксированном ритме 1.6 сек, сила нарастает только громкостью
-и тоном — ритм не гуляет. Отдышка — триггер Шмитта (вход на 70, выход на 55,
-плюс гистерезис): тот же ритм, но тяжёлый тембр выдохов и выше громкость.
-Падение: сердце и дыхание разгоняются прямо в полёте, тем сильнее, чем дольше
-падение (порог ~2.5 блока, мелкие спрыгивания молчат, планирование на элитрах
-не считается); приземление с 4+ блоков добавляет всплеск стресса поверх.
+Tuning: walking and occasional jumps stay in the calm stage (decay runs every
+tick). A single peak threshold (exertion 15, ~1 sec of sprinting): above it
+breathing runs at a fixed 1.6 sec rhythm, intensity scaling only through volume
+and pitch — the rhythm never wobbles. Gasping is a Schmitt trigger (enter at 70,
+exit at 55, plus hysteresis): same rhythm, but heavy exhale timbre and higher volume.
+Falling: heart and breathing accelerate mid-air, the stronger the longer the fall
+(threshold ~2.5 blocks, small hops stay silent, elytra gliding doesn't count);
+landing from 4+ blocks adds a stress spike on top.
 
-Звук дыхания — процедурный (розовый шум + медленная волна громкости):
-нейтральный воздух без голоса и рта. Сердце — CC0-запись, нарезанная до
-одиночных ударов 0.75 c, чтобы на частом ритме удары не наслаивались.
-Детали в `CREDITS.md`.
+Breathing sound is procedural (pink noise + slow volume swell):
+neutral air with no voice or mouth. The heart is a CC0 recording, cut down to
+single 0.75 s thumps so beats don't layer at fast rates.
+Details in `CREDITS.md`.
 
-## Настройки
+## Settings
 
-Три способа открыть (значения применяются сразу, хранятся в
+Three ways to open (values apply instantly, stored in
 `config/breathheart.json`):
 
-- клавиша **H** в игре (Управление → Разное, можно переназначить);
-- команда `/breathheart config`;
-- команда `/breathheart debug` — строка состояния в чат
-  (нагрузка, пик, кулдауны, стресс): для диагностики, если что-то молчит;
-- команда `/breathheart test` — проигрывает все 5 звуков по очереди
-  на полной громкости (покой, пик, отдышка, сердце x2): если их слышно,
-  движок и файлы в порядке, а дело в триггерах/громкостях.
+- **H** key in game (Controls → Miscellaneous, rebindable);
+- `/breathheart config` command;
+- `/breathheart debug` command — a status line in chat
+  (exertion, peak, cooldowns, stress): for diagnosing anything silent;
+- `/breathheart test` command — plays all 5 sounds in sequence
+  at full volume (calm, peak, gasp, heart x2): if you hear them,
+  the engine and files are fine and it's about triggers/volumes.
 
-Если дыхание пропало после игры с настройками — удалите
-`config/breathheart.json` (сбросится к значениям по умолчанию).
-- кнопка настроек (шестерёнка) у мода в списке ModMenu — для неё нужен
-  установленный ModMenu 20.0.1+ (в игру, не в мод: мод работает и без него).
+If breathing disappeared after playing with settings — delete
+`config/breathheart.json` (resets to defaults).
+- settings button (gear) next to the mod in the ModMenu list — requires
+  ModMenu 20.0.1+ installed (into the game, not the mod: the mod works without it).
 
-В меню: тумблеры дыхания/сердцебиения, громкости, скорость восстановления,
-чувствительность сердца, паузы дыхания. Отдельных библиотек для меню не нужно.
+The menu has: breathing/heartbeat toggles, volumes, recovery speed,
+heart sensitivity, breathing pauses. No extra config libraries needed.
 
-## Сборка
+## Building
 
-Нужен JDK 25+:
+JDK 25+ required:
 
 ```powershell
 $env:JAVA_HOME = "C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot"
 ./gradlew build
 ```
 
-Готовый jar: `build/libs/breathheart-0.1.0.jar` (берётся файл с коротким именем).
-Для запуска нужен Fabric Loader 0.19.3+ и Fabric API 0.158.0+26.2.
+Ready jar: `build/libs/breathheart-0.1.0.jar` (take the short-named file).
+To run you need Fabric Loader 0.19.3+ and Fabric API 0.158.0+26.2.
 
-## Проверка звука без игры
+## Checking sounds without the game
 
 ```powershell
 ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 src/client/resources/assets/breathheart/sounds/heart_slow.ogg
 ```
 
-## Структура
+## Structure
 
 - `src/client/java/ru/breathheart/client/` — `BreathheartClient`, `ModSounds`, `BreathheartConfig`, `BreathheartAudio`
 - `.../physiology/` — `PlayerStateSampler`, `ExertionModel`, `StressModel`
 - `src/client/resources/assets/breathheart/` — `sounds.json`, `sounds/*.ogg`
-- `CREDITS.md` — источники CC0-звуков
+- `CREDITS.md` — CC0 sound sources

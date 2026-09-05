@@ -49,8 +49,8 @@ public final class BreathheartClient implements ClientModInitializer {
 					.executes(context -> {
 						audio.startSelfTest();
 						context.getSource().sendFeedback(
-							net.minecraft.network.chat.Component.literal(
-								"[Breathheart] test: слушайте 5 звуков (покой, пик, отдышка, сердце x2)..."));
+							net.minecraft.network.chat.Component.translatable(
+								"breathheart.chat.test_intro"));
 						return 1;
 					}))));
 	}

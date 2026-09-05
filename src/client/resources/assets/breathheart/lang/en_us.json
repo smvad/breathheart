@@ -1,3 +1,21 @@
 {
-	"key.breathheart.settings": "Open Breathheart settings"
+	"key.breathheart.settings": "Open Breathheart settings",
+
+	"breathheart.settings.title": "Breathheart — Breathing & Heartbeat",
+	"breathheart.settings.breathing": "Breathing",
+	"breathheart.settings.heartbeat": "Heartbeat",
+	"breathheart.settings.on": "ON",
+	"breathheart.settings.off": "OFF",
+	"breathheart.settings.masterVolume": "Master volume: %s",
+	"breathheart.settings.breathVolume": "Breathing volume: %s",
+	"breathheart.settings.heartVolume": "Heart volume: %s",
+	"breathheart.settings.recovery": "Recovery: %s",
+	"breathheart.settings.heartSensitivity": "Heart sensitivity: %s",
+	"breathheart.settings.calmInterval": "Calm pause: %s t.",
+	"breathheart.settings.peakInterval": "Peak rate: %s t.",
+	"breathheart.settings.done": "Done",
+	"breathheart.settings.hint": "Values apply instantly, saved on close",
+
+	"breathheart.chat.test_intro": "[Breathheart] test: listen for 5 sounds (calm, peak, gasp, heart x2)...",
+	"breathheart.chat.test_cue": "[Breathheart] test: %s"
 }
