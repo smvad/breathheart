@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "breathheart",
+	"version": "${version}",
+	"name": "Breathheart",
+	"description": "Subtle breathing and heartbeat sounds: exertion breathing, gasping after effort, racing heart in critical moments (falls, heavy damage).",
+	"authors": [
+		"smvad25"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/example/breathheart"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/breathheart/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"ru.breathheart.client.BreathheartClient"
+		],
+		"modmenu": [
+			"ru.breathheart.client.compat.BreathheartModMenu"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
