@@ -74,9 +74,32 @@ public final class BreathheartAudio {
 		updatePeak();
 		updateGasp();
 		updateFallPanic(s);
+
+		// Safety clamps: cooldowns only ever count down, never stick.
+		if (breathCooldown < 0) {
+			breathCooldown = 0;
+		}
+		if (heartCooldown < 0) {
+			heartCooldown = 0;
+		}
+		if (busyTicks < 0) {
+			busyTicks = 0;
+		}
+		if (busyTicks > 0) {
+			busyTicks--;
+		}
+
+		// Self-test owns the speakers: ambient stays quiet so test cues
+		// never layer with scheduled breaths or heartbeats.
+		if (isTestRunning()) {
+			tickTestQueue(client);
+			return;
+		}
 		tickTestQueue(client);
 
-		if (BreathheartConfig.ENABLE_BREATHING) {
+		// Breath-hold: no breathing sounds with eyes underwater (the stress
+		// model still raises the heartbeat as air runs out).
+		if (BreathheartConfig.ENABLE_BREATHING && !s.eyesUnderwater()) {
 			tickBreathing(client);
 		} else {
 			breathCooldown = 0;
@@ -84,6 +107,11 @@ public final class BreathheartAudio {
 		if (BreathheartConfig.ENABLE_HEARTBEAT) {
 			tickHeartbeat(client);
 		}
+	}
+
+	/** True while queued self-test cues are still playing. */
+	public boolean isTestRunning() {
+		return !testQueue.isEmpty();
 	}
 
 	/** Hysteresis + cooldown alignment on peak transitions. */
@@ -145,9 +173,6 @@ public final class BreathheartAudio {
 	}
 
 	private void tickBreathing(Minecraft client) {
-		if (busyTicks > 0) {
-			busyTicks--;
-		}
 		if (breathCooldown > 0) {
 			breathCooldown--;
 			return;

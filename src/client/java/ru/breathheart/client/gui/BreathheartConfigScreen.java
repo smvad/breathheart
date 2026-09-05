@@ -1,5 +1,6 @@
 package ru.breathheart.client.gui;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
@@ -78,7 +79,18 @@ public final class BreathheartConfigScreen extends Screen {
 			value -> String.format("%.0f", value),
 			15, 60, () -> BreathheartConfig.PEAK_INTERVAL,
 			value -> BreathheartConfig.PEAK_INTERVAL = (int) Math.round(value)));
-		y += step + 8;
+		y += step + 4;
+
+		addRenderableWidget(Button.builder(Component.translatable("breathheart.settings.reset"), button -> {
+				BreathheartConfig.resetDefaults();
+				Minecraft client = this.minecraft;
+				if (client != null) {
+					client.setScreenAndShow(new BreathheartConfigScreen(parent));
+				}
+			})
+			.bounds(centerX - 100, y, 200, 20)
+			.build());
+		y += step + 4;
 
 		addRenderableWidget(Button.builder(Component.translatable("breathheart.settings.done"), button -> onClose())
 			.bounds(centerX - 100, y, 200, 20)

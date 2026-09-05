@@ -14,6 +14,7 @@
 	"breathheart.settings.calmInterval": "Пауза в покое: %s т.",
 	"breathheart.settings.peakInterval": "Ритм пика: %s т.",
 	"breathheart.settings.done": "Готово",
+	"breathheart.settings.reset": "Сбросить",
 	"breathheart.settings.hint": "Значения применяются сразу, сохраняются при закрытии",
 
 	"breathheart.chat.test_intro": "[Breathheart] test: слушайте 5 звуков (покой, пик, отдышка, сердце x2)...",

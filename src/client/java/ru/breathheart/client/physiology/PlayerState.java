@@ -12,6 +12,11 @@ public record PlayerState(
 	float fallDistance,
 	float health,
 	float maxHealth,
-	boolean alive
+	boolean alive,
+	boolean eyesUnderwater,
+	int airSupply,
+	int maxAirSupply,
+	int armorValue,
+	float wardenStress
 ) {
 }

@@ -21,6 +21,8 @@ public final class BreathheartConfig {
 
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final String FILE_NAME = "breathheart.json";
+	/** Config format version; bump when defaults change incompatibly. */
+	private static final int CURRENT_VERSION = 1;
 
 	// Master switches / volumes
 	public static boolean ENABLE_BREATHING = true;
@@ -91,7 +93,8 @@ public final class BreathheartConfig {
 		float exertDecayPerTick = 0.8f;
 		float stressTrigger = 20.0f;
 		int breathIntervalCalm = 80;
-		int peakInterval = 30;
+		int peakInterval = 32;
+		int version = 1;
 	}
 
 	public static void load() {
@@ -121,6 +124,7 @@ public final class BreathheartConfig {
 
 	public static void save() {
 		Data data = new Data();
+		data.version = CURRENT_VERSION;
 		data.enableBreathing = ENABLE_BREATHING;
 		data.enableHeartbeat = ENABLE_HEARTBEAT;
 		data.masterVolume = MASTER_VOLUME;
@@ -141,5 +145,19 @@ public final class BreathheartConfig {
 
 	private static float clamp(float value, float min, float max) {
 		return Math.min(max, Math.max(min, value));
+	}
+
+	/** Restore all persisted settings to defaults (used by the Reset button). */
+	public static void resetDefaults() {
+		ENABLE_BREATHING = true;
+		ENABLE_HEARTBEAT = true;
+		MASTER_VOLUME = 1.0f;
+		BREATH_VOLUME_SCALE = 1.0f;
+		HEART_VOLUME_SCALE = 1.0f;
+		EXERT_DECAY_PER_TICK = 0.8f;
+		STRESS_TRIGGER = 20.0f;
+		BREATH_INTERVAL_CALM = 80;
+		PEAK_INTERVAL = 32;
+		save();
 	}
 }

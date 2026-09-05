@@ -14,6 +14,7 @@
 	"breathheart.settings.calmInterval": "Calm pause: %s t.",
 	"breathheart.settings.peakInterval": "Peak rate: %s t.",
 	"breathheart.settings.done": "Done",
+	"breathheart.settings.reset": "Reset to defaults",
 	"breathheart.settings.hint": "Values apply instantly, saved on close",
 
 	"breathheart.chat.test_intro": "[Breathheart] test: listen for 5 sounds (calm, peak, gasp, heart x2)...",

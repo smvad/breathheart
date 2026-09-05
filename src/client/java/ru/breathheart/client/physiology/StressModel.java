@@ -16,6 +16,7 @@ public final class StressModel {
 	private float lastHealth = -1f;
 	private float peakFall = 0f;
 	private boolean wasOnGround = true;
+	private int pulsePhase;
 
 	public void tick(PlayerState s) {
 		if (lastHealth < 0f) {
@@ -43,12 +44,28 @@ public final class StressModel {
 		}
 		wasOnGround = s.onGround();
 
-		// Low HP keeps the heart racing.
+		// Low HP: pulsing waves instead of a flat floor — the heart swells and
+		// eases, which reads as dread rather than a stuck alarm.
 		if (s.alive() && s.health() <= 6.0f) {
-			float floor = 40.0f + (6.0f - s.health()) * 10.0f;
-			if (stress < floor) {
-				stress = floor;
+			float wave = 0.5f + 0.5f * (float) Math.sin(pulsePhase * 0.12f);
+			float target = 30.0f + (6.0f - s.health()) * 7.0f + 18.0f * wave;
+			if (stress < target) {
+				stress = target;
 			}
+		}
+		pulsePhase++;
+
+		// Thin air: drowning dread grows as the bubble meter empties.
+		if (s.alive() && s.eyesUnderwater() && s.maxAirSupply() > 0) {
+			float airFrac = (float) s.airSupply() / (float) s.maxAirSupply();
+			if (airFrac < 0.75f) {
+				boost((1.0f - airFrac) * 55.0f);
+			}
+		}
+
+		// Warden proximity dread (0 when none nearby, throttled in the sampler).
+		if (s.wardenStress() > 0f) {
+			boost(s.wardenStress());
 		}
 
 		// Fade.
@@ -81,5 +98,6 @@ public final class StressModel {
 		lastHealth = -1f;
 		peakFall = 0f;
 		wasOnGround = true;
+		pulsePhase = 0;
 	}
 }

@@ -12,19 +12,21 @@ public final class ExertionModel {
 	private float exertion;
 
 	public void tick(PlayerState s) {
+		// Heavy armor tires faster: full diamond (~20) is roughly 1.6x load.
+		float load = 1f + s.armorValue() * 0.03f;
 		if (s.sprinting()) {
-			exertion += BreathheartConfig.EXERT_SPRINT_PER_TICK;
+			exertion += BreathheartConfig.EXERT_SPRINT_PER_TICK * load;
 		} else if (s.movingFast()) {
-			exertion += BreathheartConfig.EXERT_RUN_PER_TICK;
+			exertion += BreathheartConfig.EXERT_RUN_PER_TICK * load;
 		}
 		if (s.swimming()) {
-			exertion += BreathheartConfig.EXERT_SWIM_PER_TICK;
+			exertion += BreathheartConfig.EXERT_SWIM_PER_TICK * load;
 		}
 		if (s.jumping()) {
-			exertion += BreathheartConfig.EXERT_JUMP_BURST;
+			exertion += BreathheartConfig.EXERT_JUMP_BURST * load;
 		}
 		if (s.swinging()) {
-			exertion += BreathheartConfig.EXERT_SWING_BURST;
+			exertion += BreathheartConfig.EXERT_SWING_BURST * load;
 		}
 
 		exertion -= BreathheartConfig.EXERT_DECAY_PER_TICK;

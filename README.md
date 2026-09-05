@@ -12,7 +12,8 @@ A client-side Fabric mod for Minecraft 26.2: a breathing and heartbeat system.
 
 - **Background:** barely audible breathing and heartbeat at rest.
 - **Exertion:** running, sprinting, jumping, swimming, hitting/mining → breathing gets faster, louder, higher-pitched; prolonged effort leads to gasping that fades smoothly.
-- **Critical moments:** falling from height, sudden heavy damage, low health → racing heartbeat that fades out.
+- **Critical moments:** falling from height, sudden heavy damage, low health → racing heartbeat that fades out. The heart also reacts to thin air underwater and a nearby warden, and pulses in waves at low HP.
+- **Weight and water:** heavy armor tires you faster; no breathing sounds with eyes underwater (breath-holding).
 
 Everything is detected from movement/health on the client (no mixins needed); sound is
 non-positional one-shot samples with dynamic volume, pitch and interval. Every sample
@@ -54,7 +55,7 @@ If breathing disappeared after playing with settings — delete
   ModMenu 20.0.1+ installed (into the game, not the mod: the mod works without it).
 
 The menu has: breathing/heartbeat toggles, volumes, recovery speed,
-heart sensitivity, breathing pauses. No extra config libraries needed.
+heart sensitivity, breathing pauses, reset to defaults. No extra config libraries needed.
 
 ## Building
 
