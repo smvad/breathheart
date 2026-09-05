@@ -11,7 +11,7 @@
 		"homepage": "https://fabricmc.net/",
 		"sources": "https://github.com/example/breathheart"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/breathheart/icon.png",
 	"environment": "client",
 	"entrypoints": {
