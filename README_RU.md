@@ -66,7 +66,8 @@ $env:JAVA_HOME = "C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot"
 ./gradlew build
 ```
 
-Готовый jar: `build/libs/breathheart-0.1.0.jar` (берётся файл с коротким именем).
+Готовый jar: `build/libs/breathheart-0.1.0.jar` (берётся файл с коротким именем),
+или скачайте его из [Releases](https://github.com/smvad/breathheart/releases).
 Для запуска нужен Fabric Loader 0.19.3+ и Fabric API 0.158.0+26.2.
 
 ## Проверка звука без игры
