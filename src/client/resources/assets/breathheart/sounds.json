@@ -1,23 +1,8 @@
 {
-	"breath_calm": {
+	"breath_loop": {
 		"category": "players",
 		"sounds": [
-			{ "name": "breathheart:breath_calm", "stream": false, "volume": 0.6 }
-		]
-	},
-	"breath_peak": {
-		"category": "players",
-		"sounds": [
-			{ "name": "breathheart:breath_peak_a", "stream": false },
-			{ "name": "breathheart:breath_peak_b", "stream": false }
-		]
-	},
-	"breath_gasp": {
-		"category": "players",
-		"sounds": [
-			{ "name": "breathheart:breath_gasp_a", "stream": false },
-			{ "name": "breathheart:breath_gasp_b", "stream": false },
-			{ "name": "breathheart:breath_gasp_c", "stream": false }
+			{ "name": "breathheart:breath_loop", "stream": false }
 		]
 	},
 	"heart_slow": {
@@ -30,6 +15,18 @@
 		"category": "players",
 		"sounds": [
 			{ "name": "breathheart:heart_fast", "stream": false }
+		]
+	},
+	"heart_reverb": {
+		"category": "players",
+		"sounds": [
+			{ "name": "breathheart:heart_reverb", "stream": false }
+		]
+	},
+	"heart_muffled": {
+		"category": "players",
+		"sounds": [
+			{ "name": "breathheart:heart_muffled", "stream": false }
 		]
 	}
 }

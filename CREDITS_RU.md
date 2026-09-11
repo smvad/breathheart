@@ -16,28 +16,28 @@
 
 Прямая ссылка на сырой OGG: https://bigsoundbank.com/UPLOAD/ogg/0218.ogg
 
-## Дыхание (процедурный синтез, без исходников)
+## Эффекты сердцебиения (вшиты в геймплей)
 
-Записанные голоса (вздохи, пыхтение, чужое дыхание) по очереди не подошли —
-слишком характерные. Итоговое дыхание синтезировано из розового шума:
-нейтральный «воздух» без рта и голоса, детерминировано (фиксированные seeds),
-прав не требует.
+Производные от той же CC0-основы:
 
-Покой и пик — полный цикл вдох-выдох: вдох ярче (lowpass выше), выдох темнее,
-между циклами пауза. Отдышка — только выдохи (частые, без вдоха), поэтому
-звучит тяжелее.
+| Файл мода | Эффект | Цепочка |
+|---|---|---|
+| `heart_reverb.ogg` | глубокая комната (плотные ранние отражения) | `apad` до 1.4 c + `aecho=0.8:0.85:20\|40\|60\|90:0.45\|0.35\|0.25\|0.18` |
+| `heart_muffled.ogg` | приглушённый/далёкий (HP ниже 5) | `lowpass=f=200` + сильный гейн |
+
+`heart_reverb.ogg` играет рядом с живым варденом, `heart_muffled.ogg` — ниже 5 HP
+(настраивается `HEART_MUFFLED_HP`). Оба также доступны через `/breathheart test`.
+
+## Дыхание (запись от автора, одна бесшовная петля)
+
+> Примечание: файл предоставлен автором (smvad); его исходная лицензия
+> неизвестна — проверьте перед любым использованием вне мода. Сырые файлы
+> лежат в `raw/` (не коммитятся).
+
+| Файл мода | Источник | Обработка |
+|---|---|---|
+| `breath_loop.ogg` | `tjazheloe-muzhskoe-dyhanie.mp3` (тяжёлое мужское дыхание, 20 c) | 5.6–7.2 c (победитель прослушки N02: чистый стык, без пауз) → моно, компрессия (ровное дыхание), кроссфейд петли 0.3 c (стык проверен: транзиент на уровне фона), гейн + лимитер; ровно 1.6 c = 32 тика |
 
 ```powershell
-# покой, 1.8 c = вдох 0.9 c + выдох 0.9 c (интервал покоя 4 c — остальное тишина,
-# поэтому хвост никогда не мешает переходам)
-ffmpeg -f lavfi -i "anoisesrc=color=pink:sample_rate=44100:duration=0.9:seed=31" `
-       -f lavfi -i "anoisesrc=color=pink:sample_rate=44100:duration=0.9:seed=32" `
-  -filter_complex "[0:a]lowpass=f=800,highpass=f=70,volume='0.08+0.92*pow(sin(PI*t/0.9),0.8)':eval=frame,afade=t=in:st=0:d=0.1,afade=t=out:st=0.72:d=0.18[inh];[1:a]lowpass=f=350,highpass=f=60,volume='0.08+0.92*pow(sin(PI*t/0.9),0.8)':eval=frame,afade=t=in:st=0:d=0.1,afade=t=out:st=0.72:d=0.18[exh];[inh][exh]concat=n=2:v=0:a=1,volume=2dB" `
-  -ac 1 -ar 44100 -c:a libvorbis -q:a 4 breath_calm.ogg
-
-# пик, 1.6 c = вдох 0.8 c + выдох 0.8 c, без паузы (пары seeds 41/42, 43/44)
-# отдышка, 1.4 c: один выдох (seeds 21/22/23), громче и ярче
-ffmpeg -f lavfi -i "anoisesrc=color=pink:sample_rate=44100:duration=1.4:seed=21" `
-  -af "lowpass=f=1000,highpass=f=90,equalizer=f=1400:t=q:w=1:g=5,volume='0.1+0.9*pow(sin(PI*t/1.4),0.7)':eval=frame,afade=t=in:st=0:d=0.1,afade=t=out:st=1.15:d=0.25,volume=6dB" `
-  -ac 1 -ar 44100 -c:a libvorbis -q:a 4 breath_gasp_a.ogg
+ffmpeg -i raw/tjazheloe-muzhskoe-dyhanie.mp3 -filter_complex "[0:a]atrim=start=5.6:end=7.2,asetpts=PTS-STARTPTS,highpass=f=80,lowpass=f=2500,aformat=channel_layouts=mono,acompressor=threshold=-30dB:ratio=10:attack=5:release=90:makeup=14dB,asplit[a1][a2];[a1][a2]acrossfade=d=0.3:c1=tri:c2=tri[x];[x]atrim=start=0:end=1.6,asetpts=PTS-STARTPTS,volume=3dB,alimiter=limit=0.95:attack=5:release=50" -ar 44100 -c:a libvorbis -q:a 4 breath_loop.ogg
 ```

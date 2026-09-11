@@ -77,7 +77,7 @@ public final class BreathheartConfigScreen extends Screen {
 		y += step;
 		addRenderableWidget(new RangeSlider(x, y, w, "breathheart.settings.peakInterval",
 			value -> String.format("%.0f", value),
-			15, 60, () -> BreathheartConfig.PEAK_INTERVAL,
+			32, 60, () -> BreathheartConfig.PEAK_INTERVAL,
 			value -> BreathheartConfig.PEAK_INTERVAL = (int) Math.round(value)));
 		y += step + 4;
 

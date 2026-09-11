@@ -17,6 +17,6 @@
 	"breathheart.settings.reset": "Reset to defaults",
 	"breathheart.settings.hint": "Values apply instantly, saved on close",
 
-	"breathheart.chat.test_intro": "[Breathheart] test: listen for 5 sounds (calm, peak, gasp, heart x2)...",
+	"breathheart.chat.test_intro": "[Breathheart] test: listen for 5 sounds (breath, heart x2, reverb, muffled)...",
 	"breathheart.chat.test_cue": "[Breathheart] test: %s"
 }

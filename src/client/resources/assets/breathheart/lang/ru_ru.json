@@ -17,6 +17,6 @@
 	"breathheart.settings.reset": "Сбросить",
 	"breathheart.settings.hint": "Значения применяются сразу, сохраняются при закрытии",
 
-	"breathheart.chat.test_intro": "[Breathheart] test: слушайте 5 звуков (покой, пик, отдышка, сердце x2)...",
+	"breathheart.chat.test_intro": "[Breathheart] test: слушайте 5 звуков (дыхание, сердце x2, реверб, глухой)...",
 	"breathheart.chat.test_cue": "[Breathheart] test: %s"
 }

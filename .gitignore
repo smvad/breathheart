@@ -1,6 +1,7 @@
 .gradle/
 build/
 run/
+raw/
 *.log
 out/
 .idea/

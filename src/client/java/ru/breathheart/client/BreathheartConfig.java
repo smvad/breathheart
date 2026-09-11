@@ -45,12 +45,13 @@ public final class BreathheartConfig {
 	/** Gasping uses a Schmitt trigger: enters at 70, exits at 55 — no flicker possible. */
 	public static float THRESHOLD_GASP_ENTER = 70.0f;
 	public static float THRESHOLD_GASP_EXIT = 55.0f;
+	/** Gasping starts only after this many ticks of sustained peak effort (~2 s). */
+	public static int GASP_ENTER_DELAY_TICKS = 40;
 
 	// ---- Breath scheduling (ticks between breaths) ----
-	// Single peak threshold design: below it calm breathing, above it peak
-	// breathing at ONE fixed rate. Intensity inside peak scales only through
-	// volume/pitch, so the rhythm can never wobble between two tempos.
-	// Every sample is shorter than its regime interval, so breaths never stack.
+	// Continuous-tempo design: the interval slides from BREATH_INTERVAL_CALM
+	// at rest down to PEAK_INTERVAL (= the 1.6 s loop length) at full drive.
+	// Intensity scales through rate, volume and pitch — the beat never breaks.
 	public static int BREATH_INTERVAL_CALM = 80;
 	public static int PEAK_INTERVAL = 32;
 
@@ -78,6 +79,8 @@ public final class BreathheartConfig {
 	public static int HEART_INTERVAL_FAST = 10;
 	public static float HEART_VOL_MIN = 0.18f;
 	public static float HEART_VOL_MAX = 0.7f;
+	/** Below this health the heartbeat turns muffled and distant. */
+	public static float HEART_MUFFLED_HP = 5.0f;
 
 	private static Path file() {
 		return FabricLoader.getInstance().getConfigDir().resolve(FILE_NAME);
@@ -116,7 +119,7 @@ public final class BreathheartConfig {
 			EXERT_DECAY_PER_TICK = clamp(data.exertDecayPerTick, 0.1f, 3.0f);
 			STRESS_TRIGGER = clamp(data.stressTrigger, 5f, 80f);
 			BREATH_INTERVAL_CALM = (int) clamp(data.breathIntervalCalm, 30, 200);
-			PEAK_INTERVAL = (int) clamp(data.peakInterval, 15, 60);
+			PEAK_INTERVAL = (int) clamp(data.peakInterval, 32, 60);
 		} catch (IOException | RuntimeException e) {
 			// Corrupt config: keep defaults, overwrite on next save.
 		}

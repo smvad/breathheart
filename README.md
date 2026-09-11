@@ -11,30 +11,32 @@
 A client-side Fabric mod for Minecraft 26.2: a breathing and heartbeat system.
 
 - **Background:** barely audible breathing and heartbeat at rest.
-- **Exertion:** running, sprinting, jumping, swimming, hitting/mining → breathing gets faster, louder, higher-pitched; prolonged effort leads to gasping that fades smoothly.
+- **Exertion:** running, sprinting, jumping, swimming, hitting/mining → breathing gets faster and louder; prolonged effort leads to gasping that fades smoothly.
 - **Critical moments:** falling from height, sudden heavy damage, low health → racing heartbeat that fades out. The heart also reacts to thin air underwater and a nearby warden, and pulses in waves at low HP.
 - **Weight and water:** heavy armor tires you faster; no breathing sounds with eyes underwater (breath-holding).
 
 Everything is detected from movement/health on the client (no mixins needed); sound is
-non-positional one-shot samples with dynamic volume, pitch and interval. Every sample
-is shorter than its stage interval, so breaths never overlap and nothing is cut off
-mid-play; stage switches are additionally smoothed by an 8-tick hysteresis.
+non-positional one-shot samples with dynamic volume, pitch and interval. Breathing
+is a single seamless loop: the tempo slides continuously with effort down to gapless
+tiling, so the beat never breaks; gasping morphs the same loop louder and higher
+instead of switching samples.
 
 The mod is active in survival and adventure only; silent in creative and spectator.
 
-Tuning: walking and occasional jumps stay in the calm stage (decay runs every
-tick). A single peak threshold (exertion 15, ~1 sec of sprinting): above it
-breathing runs at a fixed 1.6 sec rhythm, intensity scaling only through volume
-and pitch — the rhythm never wobbles. Gasping is a Schmitt trigger (enter at 70,
-exit at 55, plus hysteresis): same rhythm, but heavy exhale timbre and higher volume.
+Tuning: walking and occasional jumps stay near resting tempo (decay runs every
+tick). Effort drives the loop continuously: ~1 sec of sprinting brings it to the
+full 1.6 sec gapless tiling, intensity scaling through rate and volume (pitch
+stays 1.0 — a shifted voice sounds unnatural).
+Gasping latches after ~2 sec of sustained peak effort (Schmitt 70/55) and morphs
+the same loop louder over ~1.5 sec — no switches, no broken beat.
 Falling: heart and breathing accelerate mid-air, the stronger the longer the fall
 (threshold ~2.5 blocks, small hops stay silent, elytra gliding doesn't count);
 landing from 4+ blocks adds a stress spike on top.
 
-Breathing sound is procedural (pink noise + slow volume swell):
-neutral air with no voice or mouth. The heart is a CC0 recording, cut down to
-single 0.75 s thumps so beats don't layer at fast rates.
-Details in `CREDITS.md`.
+Breathing sound is one seamless loop from an author-provided recording (see
+`CREDITS.md`). The heart is a CC0 recording, cut down to
+single 0.75 s thumps so beats don't layer at fast rates; near a warden the
+heartbeat echoes, below 5 HP it turns muffled and distant.
 
 ## Settings
 
@@ -44,9 +46,9 @@ Three ways to open (values apply instantly, stored in
 - **H** key in game (Controls → Miscellaneous, rebindable);
 - `/breathheart config` command;
 - `/breathheart debug` command — a status line in chat
-  (exertion, peak, cooldowns, stress): for diagnosing anything silent;
+  (exertion, gasp morph, cooldowns, stress): for diagnosing anything silent;
 - `/breathheart test` command — plays all 5 sounds in sequence
-  at full volume (calm, peak, gasp, heart x2): if you hear them,
+  at full volume (breath, heart x2, reverb, muffled): if you hear them,
   the engine and files are fine and it's about triggers/volumes.
 
 If breathing disappeared after playing with settings — delete

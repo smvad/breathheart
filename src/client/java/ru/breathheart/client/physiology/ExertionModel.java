@@ -43,11 +43,6 @@ public final class ExertionModel {
 		return exertion;
 	}
 
-	/** Single peak threshold: above it the breathing runs at peak rate. */
-	public boolean isPeak() {
-		return exertion >= BreathheartConfig.THRESHOLD_PEAK;
-	}
-
 	public void reset() {
 		exertion = 0f;
 	}

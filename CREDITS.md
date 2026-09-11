@@ -16,28 +16,29 @@ BigSoundBank / LaSonotheque. Attribution is not required, given out of respect.
 
 Raw OGG direct link: https://bigsoundbank.com/UPLOAD/ogg/0218.ogg
 
-## Breathing (procedural synthesis, no sources)
+## Heartbeat effects (wired into gameplay)
 
-Recorded voices (sighs, panting, strangers' breathing) were all rejected one by one —
-too distinctive. The final breathing is synthesized from pink noise:
-neutral "air" with no mouth or voice, deterministic (fixed seeds),
-no rights required.
+Derived from the same CC0 base above:
 
-Calm and peak are a full inhale-exhale cycle: brighter inhale (higher lowpass),
-darker exhale, a pause between cycles. Gasping is exhales only (frequent, no
-inhale), which is why it sounds heavier.
+| Mod file | Effect | Chain |
+|---|---|---|
+| `heart_reverb.ogg` | deep room reverb (dense early reflections) | `apad` to 1.4 s + `aecho=0.8:0.85:20\|40\|60\|90:0.45\|0.35\|0.25\|0.18` |
+| `heart_muffled.ogg` | muffled/distant (HP below 5) | `lowpass=f=200` + heavy gain |
 
+`heart_reverb.ogg` plays near a live warden, `heart_muffled.ogg` below 5 HP
+(tunable `HEART_MUFFLED_HP`). Both are also playable via `/breathheart test`.
+
+## Breathing (user-provided recording, one seamless loop)
+
+> Note: this file was provided by the author (smvad); its original license
+> is unknown — check before any use outside this mod. Raw files live in `raw/`
+> (not committed).
+
+| Mod file | Source | Processing |
+|---|---|---|
+| `breath_loop.ogg` | `tjazheloe-muzhskoe-dyhanie.mp3` (heavy male breathing, 20 s) | 5.6–7.2 s (audition winner N02: clean joint, no pauses) → mono, compression (even breathing), loop crossfade 0.3 s (joint verified: transient at background level), gain + limiter; exactly 1.6 s = 32 ticks |
+
+Example:
 ```powershell
-# calm, 1.8 s = 0.9 s inhale + 0.9 s exhale (calm interval is 4 s — the rest is
-# silence, so the tail never blocks transitions)
-ffmpeg -f lavfi -i "anoisesrc=color=pink:sample_rate=44100:duration=0.9:seed=31" `
-       -f lavfi -i "anoisesrc=color=pink:sample_rate=44100:duration=0.9:seed=32" `
-  -filter_complex "[0:a]lowpass=f=800,highpass=f=70,volume='0.08+0.92*pow(sin(PI*t/0.9),0.8)':eval=frame,afade=t=in:st=0:d=0.1,afade=t=out:st=0.72:d=0.18[inh];[1:a]lowpass=f=350,highpass=f=60,volume='0.08+0.92*pow(sin(PI*t/0.9),0.8)':eval=frame,afade=t=in:st=0:d=0.1,afade=t=out:st=0.72:d=0.18[exh];[inh][exh]concat=n=2:v=0:a=1,volume=2dB" `
-  -ac 1 -ar 44100 -c:a libvorbis -q:a 4 breath_calm.ogg
-
-# peak, 1.6 s = 0.8 s inhale + 0.8 s exhale, no pause (seed pairs 41/42, 43/44)
-# gasp, 1.4 s: a single exhale (seeds 21/22/23), louder and brighter
-ffmpeg -f lavfi -i "anoisesrc=color=pink:sample_rate=44100:duration=1.4:seed=21" `
-  -af "lowpass=f=1000,highpass=f=90,equalizer=f=1400:t=q:w=1:g=5,volume='0.1+0.9*pow(sin(PI*t/1.4),0.7)':eval=frame,afade=t=in:st=0:d=0.1,afade=t=out:st=1.15:d=0.25,volume=6dB" `
-  -ac 1 -ar 44100 -c:a libvorbis -q:a 4 breath_gasp_a.ogg
+ffmpeg -i raw/tjazheloe-muzhskoe-dyhanie.mp3 -filter_complex "[0:a]atrim=start=5.6:end=7.2,asetpts=PTS-STARTPTS,highpass=f=80,lowpass=f=2500,aformat=channel_layouts=mono,acompressor=threshold=-30dB:ratio=10:attack=5:release=90:makeup=14dB,asplit[a1][a2];[a1][a2]acrossfade=d=0.3:c1=tri:c2=tri[x];[x]atrim=start=0:end=1.6,asetpts=PTS-STARTPTS,volume=3dB,alimiter=limit=0.95:attack=5:release=50" -ar 44100 -c:a libvorbis -q:a 4 breath_loop.ogg
 ```
